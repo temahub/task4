@@ -51,8 +51,8 @@ public class MainPage {
         action.perform();
 
         phoneSelector.click();
-        wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//input[@id='LLoginForm_phone']")));
-        phoneField.sendKeys(phoneNumber);
+        wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath(phoneField)));
+        driver.findElement(By.xpath(phoneField)).sendKeys(phoneNumber);
         passwordField.clear();
         passwordField.sendKeys(password);
         submitLoginButton.click();
@@ -61,7 +61,8 @@ public class MainPage {
     public void logOut(){
         driver.findElement(By.xpath(userSettingsTriangle)).click();
         driver.findElement(By.xpath(userLogOutButton)).click();
-        wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//span[@class='Header__LoginLinkAuth Page__SelectOnBg Header__LinkShowWapper']")));
+        wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath
+                ("//span[@class='Header__LoginLinkAuth Page__SelectOnBg Header__LinkShowWapper']")));
     }
 
     public void randomCatalogSectionSelection(){
