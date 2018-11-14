@@ -27,12 +27,14 @@ import static xpath.XpathShopBy.*;
 public class MainPage {
 
     private WebDriver driver;
-    int i;
-    List<String> listCatalogDisplayedName = new LinkedList<>();
+    private int i;
+    private List<String> listCatalogDisplayedName = new LinkedList<>();
+    private WebDriverWait wait;
 
 
     public MainPage(WebDriver driver){
         this.driver = driver;
+        wait = new WebDriverWait(driver, 10);
     }
 
     public void mainPage(){
@@ -49,7 +51,7 @@ public class MainPage {
         action.perform();
 
         phoneSelector.click();
-        phoneField.clear();
+        wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//input[@id='LLoginForm_phone']")));
         phoneField.sendKeys(phoneNumber);
         passwordField.clear();
         passwordField.sendKeys(password);
@@ -59,7 +61,7 @@ public class MainPage {
     public void logOut(){
         driver.findElement(By.xpath(userSettingsTriangle)).click();
         driver.findElement(By.xpath(userLogOutButton)).click();
-
+        wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//span[@class='Header__LoginLinkAuth Page__SelectOnBg Header__LinkShowWapper']")));
     }
 
     public void randomCatalogSectionSelection(){

@@ -20,7 +20,7 @@ public class TestRunner {
 
     private MainPage mainPage;
     private static final String MAIN_PAGE_TITLE = "Торговый портал Shop.by – Все интернет-магазины Минска и Беларуси";
-    private static final String PHONE_NUMBER = " 447659060";
+    private static final String PHONE_NUMBER = "1447659060";
     private static final String PASSWORD = "testa1qa";
 
     @BeforeClass
@@ -67,7 +67,8 @@ public class TestRunner {
     public void logOut(){
         mainPage.logOut();
 
-        Assert.assertTrue(driver.findElement(By.xpath("//span[@class='Header__LoginLinkAuth Page__SelectOnBg Header__LinkShowWapper']")).isDisplayed());
+        Assert.assertTrue(driver.findElement(By.xpath
+                ("//span[@class='Header__LoginLinkAuth Page__SelectOnBg Header__LinkShowWapper']")).isDisplayed());
     }
 
 
@@ -75,6 +76,6 @@ public class TestRunner {
 
     @AfterClass
     public void tearDown(){
-        //driver.close();
+        driver.close();
     }
 }
