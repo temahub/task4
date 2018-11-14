@@ -11,9 +11,13 @@ import java.io.InputStreamReader;
 public class ReaderSettings{
     private static final String BROWSER = "browser";
     private static final String URL = "url";
+    private static final String CSV = "csv";
 
     public static String browserName;
     public static String urlName;
+    public static String csvPath;
+
+
 
     public static void readSettingsFromJSONFile(String fileName) throws IOException, JSONException {
         BufferedReader streamReader = new BufferedReader(new InputStreamReader
@@ -27,5 +31,6 @@ public class ReaderSettings{
         JSONObject jObject = new JSONObject(responseStrBuilder.toString());
         browserName = jObject.getString(BROWSER);
         urlName = jObject.getString(URL);
+        csvPath = jObject.getString(CSV);
     }
 }
