@@ -54,7 +54,6 @@ public class TestRunner {
         String catalogName = listCatalogDisplayedName.get(i);
 
         Assert.assertEquals(catalogName, driver.findElement(By.xpath(catalogNamePage)).getText());
-
     }
 
     @Test(priority = 3)

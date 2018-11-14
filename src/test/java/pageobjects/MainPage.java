@@ -59,6 +59,8 @@ public class MainPage {
     }
 
     public void logOut(){
+        wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath
+                (userNameField)));
         driver.findElement(By.xpath(userSettingsTriangle)).click();
         driver.findElement(By.xpath(userLogOutButton)).click();
         wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath
