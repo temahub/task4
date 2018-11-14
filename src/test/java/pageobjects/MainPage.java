@@ -27,6 +27,9 @@ import static xpath.XpathShopBy.*;
 public class MainPage {
 
     private WebDriver driver;
+    int i;
+    List<String> listCatalogDisplayedName = new LinkedList<>();
+
 
     public MainPage(WebDriver driver){
         this.driver = driver;
@@ -38,9 +41,10 @@ public class MainPage {
 
     public void loginByPhone(String phoneNumber, String password){
 
+        WebElement loginB = driver.findElement(By.xpath(loginButton));
         Actions ob = new Actions(driver);
-        ob.moveToElement(loginButton);
-        ob.click(loginButton);
+        ob.moveToElement(loginB);
+        ob.click(loginB);
         Action action  = ob.build();
         action.perform();
 
@@ -52,10 +56,16 @@ public class MainPage {
         submitLoginButton.click();
     }
 
+    public void logOut(){
+        driver.findElement(By.xpath(userSettingsTriangle)).click();
+        driver.findElement(By.xpath(userLogOutButton)).click();
+
+    }
+
     public void randomCatalogSectionSelection(){
         Random random = new Random();
         List<WebElement> listCatalogDisplayed = new LinkedList<>();
-        List<String> listCatalogDisplayedName = new LinkedList<>();
+
         List<WebElement> catalogLinks = driver.findElements(By.xpath(XpathShopBy.catalogLinks));
         for (WebElement w : catalogLinks
         ) {
@@ -64,8 +74,7 @@ public class MainPage {
                 listCatalogDisplayedName.add(w.getText());
             }
         }
-        int i = random.nextInt(listCatalogDisplayed.size());
-        System.out.println(listCatalogDisplayedName.get(i));
+        i = random.nextInt(listCatalogDisplayed.size());
         listCatalogDisplayed.get(i).click();
     }
 

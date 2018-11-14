@@ -9,6 +9,9 @@ import util.ReaderSettings;
 import webdriver.WebBrowserDriverInitialize;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.util.LinkedList;
+import java.util.List;
 
 import static webdriver.WebBrowserDriverInitialize.*;
 import static xpath.XpathShopBy.*;
@@ -39,14 +42,32 @@ public class TestRunner {
     }
 
     @Test(priority = 2)
-    public void randomCatalogSectionSelection(){
+    public void randomCatalogSectionSelection() throws NoSuchFieldException, IllegalAccessException{
         mainPage.randomCatalogSectionSelection();
+        Field listCatalogField = mainPage.getClass().getDeclaredField("listCatalogDisplayedName");
+        Field iField = mainPage.getClass().getDeclaredField("i");
+        listCatalogField.setAccessible(true);
+        iField.setAccessible(true);
+
+        List<String> listCatalogDisplayedName = (LinkedList<String>) listCatalogField.get(mainPage);
+        int i = (int) iField.get(mainPage);
+        String catalogName = listCatalogDisplayedName.get(i);
+
+        Assert.assertEquals(catalogName, driver.findElement(By.xpath(catalogNamePage)).getText());
 
     }
 
-    @Test
+    @Test(priority = 3)
     public void writeToCsvFileTest() throws IOException{
+        mainPage.mainPage();
         mainPage.writeToCsvFile();
+    }
+
+    @Test(priority = 4)
+    public void logOut(){
+        mainPage.logOut();
+
+        Assert.assertTrue(driver.findElement(By.xpath("//span[@class='Header__LoginLinkAuth Page__SelectOnBg Header__LinkShowWapper']")).isDisplayed());
     }
 
 
@@ -54,6 +75,6 @@ public class TestRunner {
 
     @AfterClass
     public void tearDown(){
-        driver.close();
+        //driver.close();
     }
 }
