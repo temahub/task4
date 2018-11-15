@@ -17,8 +17,6 @@ public class ReaderSettings{
     public static String urlName;
     public static String csvPath;
 
-
-
     public static void readSettingsFromJSONFile(String fileName) throws IOException, JSONException {
         BufferedReader streamReader = new BufferedReader(new InputStreamReader
                 (new FileInputStream(fileName), "UTF-8"));

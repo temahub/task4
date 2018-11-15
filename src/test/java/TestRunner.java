@@ -5,8 +5,6 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import pageobjects.MainPage;
-import util.ReaderSettings;
-import webdriver.WebBrowserDriverInitialize;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -66,12 +64,8 @@ public class TestRunner {
     public void logOut(){
         mainPage.logOut();
 
-        Assert.assertTrue(driver.findElement(By.xpath
-                ("//span[@class='Header__LoginLinkAuth Page__SelectOnBg Header__LinkShowWapper']")).isDisplayed());
+        Assert.assertTrue(driver.findElement(By.xpath(loginButton)).isDisplayed());
     }
-
-
-
 
     @AfterClass
     public void tearDown(){
