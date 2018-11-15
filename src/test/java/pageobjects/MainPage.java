@@ -84,23 +84,32 @@ public class MainPage {
     public void writeToCsvFile() throws IOException {
 
         String result = "";
+        List<String> list = new ArrayList<>();
 
-        /*String matcher =
-                "<a class=\"\"ModelReviewsHome__IconBlockModel\"\" href=\"\"\\X+\"\" data-model=\"\"\\X+\"\"><img src=\"\"\\X+\"\" srcset=\"\"\\X+\"\" alt=\"\"\\X+\"\" title=\"\"(\\X+)\"\" \\/><\\/a>";*/
+        //String regex = "<a class=\"\"ModelReviewsHome__IconBlockModel\"\".*><img.+ title=\"(?<Gru>.+)\".*\\/>.*<\\/a>";
+        String regex = "<ModelReviewsHome__IconBlockModel.*><img.+ title=.*";
 
-        String regex = "ModelReviewsHome__NameModel([^&]*</a><a href=)";
+        final Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
+        final Matcher matcher = pattern.matcher(driver.getPageSource());
 
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(driver.getPageSource());
-
-        if (matcher.find()) {
-            result = matcher.group();
+        //matcher.group('Gru')
+        while (matcher.find()) {
+            list.add(matcher.group());
+            System.out.println("Full match: " + matcher.group(0));
+            for (int i = 1; i <= matcher.groupCount(); i++) {
+                System.out.println("Group " + i + ": " + matcher.group(i));
+            }
+            //result = matcher.group();
         }
+        System.out.println(list.size());
+        System.out.println(driver.getPageSource().length());
+        //System.out.println(driver.getPageSource());
+        //System.out.println(result.length());
 
-        BufferedWriter writer = Files.newBufferedWriter(Paths.get(ReaderSettings.csvPath));
+        /*BufferedWriter writer = Files.newBufferedWriter(Paths.get(ReaderSettings.csvPath));
         CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT);
         csvPrinter.printRecord(result);
         csvPrinter.flush();
-        writer.close();
+        writer.close();*/
     }
 }
