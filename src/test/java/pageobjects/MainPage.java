@@ -82,34 +82,24 @@ public class MainPage {
     }
 
     public void writeToCsvFile() throws IOException {
-
-        String result = "";
         List<String> list = new ArrayList<>();
-
-        //String regex = "<a class=\"\"ModelReviewsHome__IconBlockModel\"\".*><img.+ title=\"(?<Gru>.+)\".*\\/>.*<\\/a>";
-        String regex = "<ModelReviewsHome__IconBlockModel.*><img.+ title=.*";
-
+        String regex = "<a class=\"ModelReviewsHome__IconBlockModel\".*><img.+ title=\"(?<Gru>.+)\".*/>.*</a>";
         final Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
         final Matcher matcher = pattern.matcher(driver.getPageSource());
 
-        //matcher.group('Gru')
         while (matcher.find()) {
-            list.add(matcher.group());
-            System.out.println("Full match: " + matcher.group(0));
             for (int i = 1; i <= matcher.groupCount(); i++) {
-                System.out.println("Group " + i + ": " + matcher.group(i));
+                list.add(matcher.group(i));
             }
-            //result = matcher.group();
         }
-        System.out.println(list.size());
-        System.out.println(driver.getPageSource().length());
-        //System.out.println(driver.getPageSource());
-        //System.out.println(result.length());
 
-        /*BufferedWriter writer = Files.newBufferedWriter(Paths.get(ReaderSettings.csvPath));
+        BufferedWriter writer = Files.newBufferedWriter(Paths.get(ReaderSettings.csvPath));
         CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT);
-        csvPrinter.printRecord(result);
+        for (String s : list
+             ) {
+            csvPrinter.printRecord(s);
+        }
         csvPrinter.flush();
-        writer.close();*/
+        writer.close();
     }
 }
