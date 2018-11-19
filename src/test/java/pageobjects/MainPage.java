@@ -8,6 +8,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import util.ReaderSettings;
 import xpath.XpathShopBy;
@@ -17,6 +18,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -28,10 +31,13 @@ public class MainPage {
     private int i;
     private List<String> listCatalogDisplayedName = new LinkedList<>();
     private WebDriverWait wait;
+    private FluentWait<WebDriver> fluentWait;
 
     public MainPage(WebDriver driver){
         this.driver = driver;
         wait = new WebDriverWait(driver, 10);
+        fluentWait = new FluentWait<>(driver)
+                .ignoring(NoSuchElementException.class);
     }
 
     public void mainPage(){
@@ -60,8 +66,15 @@ public class MainPage {
                 (userNameField)));
         driver.findElement(By.xpath(userSettingsTriangle)).click();
         driver.findElement(By.xpath(userLogOutButton)).click();
-        wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath
-                (loginButton)));
+        WebElement loginButtonWeb = fluentWait.until(new Function<WebDriver, WebElement>() {
+            @Override
+            public WebElement apply(WebDriver driver) {
+                wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath
+                        (loginButton)));
+                WebElement element = driver.findElement(By.xpath(loginButton));
+                return element;
+            }
+        });
     }
 
     public void randomCatalogSectionSelection(){
