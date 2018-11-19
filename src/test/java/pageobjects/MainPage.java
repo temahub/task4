@@ -18,8 +18,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
-import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -66,22 +64,19 @@ public class MainPage {
                 (userNameField)));
         driver.findElement(By.xpath(userSettingsTriangle)).click();
         driver.findElement(By.xpath(userLogOutButton)).click();
-        WebElement loginButtonWeb = fluentWait.until(new Function<WebDriver, WebElement>() {
-            @Override
-            public WebElement apply(WebDriver driver) {
-                wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath
-                        (loginButton)));
-                WebElement element = driver.findElement(By.xpath(loginButton));
-                return element;
-            }
+        fluentWait.until(driver -> {
+            wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath
+                    (loginButton)));
+            WebElement element = driver.findElement(By.xpath(loginButton));
+            return element;
         });
     }
 
     public void randomCatalogSectionSelection(){
         Random random = new Random();
         List<WebElement> listCatalogDisplayed = new LinkedList<>();
-
         List<WebElement> catalogLinks = driver.findElements(By.xpath(XpathShopBy.catalogLinks));
+
         for (WebElement w : catalogLinks
         ) {
             if (w.isDisplayed()){
