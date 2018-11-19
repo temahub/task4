@@ -1,5 +1,5 @@
 {
-  "browser": "firefox",
+  "browser": "chrome",
   "url": "https://www.shop.by/",
   "csv": "src/test/products.csv"
 }

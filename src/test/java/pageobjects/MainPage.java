@@ -102,7 +102,6 @@ public class MainPage {
             System.out.println(s);
         }
         csvPrinter.flush();
-
         writer.close();
     }
 }
