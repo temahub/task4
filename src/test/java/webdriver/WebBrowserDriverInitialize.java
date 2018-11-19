@@ -3,8 +3,8 @@ package webdriver;
 import org.json.JSONException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.ie.InternetExplorerDriver;
 import util.ReaderSettings;
 
 import java.io.IOException;
@@ -14,7 +14,7 @@ public class WebBrowserDriverInitialize {
     private static final String SETTINGS = "src/test/resources/settings.JSON";
     private static final String CHROME = "chrome";
     private static final String FIREFOX = "firefox";
-    private static final String IE = "ie";
+    private static final String Edge = "edge";
 
     public static WebDriver driver = null;
 
@@ -25,8 +25,8 @@ public class WebBrowserDriverInitialize {
                 driver = new ChromeDriver();
             }else if (ReaderSettings.browserName.equalsIgnoreCase(FIREFOX)){
                 driver = new FirefoxDriver();
-            }else if (ReaderSettings.browserName.equalsIgnoreCase(IE)){
-                driver = new InternetExplorerDriver();
+            }else if (ReaderSettings.browserName.equalsIgnoreCase(Edge)){
+                driver = new EdgeDriver();
             }
 
             driver.manage().deleteAllCookies();

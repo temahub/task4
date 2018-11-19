@@ -29,7 +29,6 @@ public class MainPage {
     private List<String> listCatalogDisplayedName = new LinkedList<>();
     private WebDriverWait wait;
 
-
     public MainPage(WebDriver driver){
         this.driver = driver;
         wait = new WebDriverWait(driver, 10);
@@ -40,7 +39,6 @@ public class MainPage {
     }
 
     public void loginByPhone(String phoneNumber, String password){
-
         WebElement loginB = driver.findElement(By.xpath(loginButton));
         Actions ob = new Actions(driver);
         ob.moveToElement(loginB);
@@ -48,12 +46,13 @@ public class MainPage {
         Action action  = ob.build();
         action.perform();
 
-        phoneSelector.click();
+        driver.findElement(By.xpath(phoneSelector));
         wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath(phoneField)));
-        driver.findElement(By.xpath(phoneField)).sendKeys(phoneNumber);
-        passwordField.clear();
-        passwordField.sendKeys(password);
-        submitLoginButton.click();
+        WebElement phoneFieldWeb = driver.findElement(By.xpath(phoneField));
+        phoneFieldWeb.click();
+        phoneFieldWeb.sendKeys(phoneNumber);
+        driver.findElement(By.xpath(passwordField)).sendKeys(password);
+        driver.findElement(By.xpath(submitLoginButton)).click();
     }
 
     public void logOut(){
@@ -83,7 +82,8 @@ public class MainPage {
 
     public void writeToCsvFile() throws IOException {
         List<String> list = new ArrayList<>();
-        String regex = "<a class=\"ModelReviewsHome__IconBlockModel\".*><img.+ title=\"(?<Gru>.+)\".*/>.*</a>";
+        //String regex = "<a class=\"ModelReviewsHome__IconBlockModel\".*><img.+ title=\"(?<Gru>.+)\".*/>.*</a>";
+        String regex = "<a class=\"ModelReviewsHome__NameModel\".*#desc\">(?<Gru>.+)</a><a";
         final Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
         final Matcher matcher = pattern.matcher(driver.getPageSource());
 
@@ -98,8 +98,11 @@ public class MainPage {
         for (String s : list
              ) {
             csvPrinter.printRecord(s);
+            System.out.println("Товар:");
+            System.out.println(s);
         }
         csvPrinter.flush();
+
         writer.close();
     }
 }
