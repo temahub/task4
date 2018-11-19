@@ -31,6 +31,11 @@ public class TestRunner {
         mainPage.mainPage();
     }
 
+    @AfterClass
+    public void tearDown(){
+        driver.close();
+    }
+
     @Test(priority = 0)
     public void mainPageTest(){
         Assert.assertEquals(MAIN_PAGE_TITLE, driver.getTitle());
@@ -70,10 +75,5 @@ public class TestRunner {
         mainPage.logOut();
 
         Assert.assertTrue(driver.findElement(By.xpath(loginButton)).isDisplayed());
-    }
-
-    @AfterClass
-    public void tearDown(){
-        driver.close();
     }
 }
