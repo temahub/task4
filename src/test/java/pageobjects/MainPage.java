@@ -83,7 +83,7 @@ public class MainPage {
     public void writeToCsvFile() throws IOException {
         List<String> list = new ArrayList<>();
         //String regex = "<a class=\"ModelReviewsHome__IconBlockModel\".*><img.+ title=\"(?<Gru>.+)\".*/>.*</a>";
-        String regex = "<a class=\"ModelReviewsHome__NameModel\".*#desc\">(?<NameCommentedProduct>.+)</a><a";
+        String regex = "<a class=\"ModelReviewsHome__NameModel\".*#desc\">(?<ProductName>.+)</a><a";
         final Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
         final Matcher matcher = pattern.matcher(driver.getPageSource());
 

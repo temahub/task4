@@ -16,17 +16,19 @@ public class WebBrowserDriverInitialize {
     private static final String FIREFOX = "firefox";
     private static final String Edge = "edge";
 
-    public static WebDriver driver = null;
+    public volatile static WebDriver driver = null;
 
     public static void initialize() throws IOException, JSONException {
         ReaderSettings.readSettingsFromJSONFile(SETTINGS);
         if (driver == null){
-            if (ReaderSettings.browserName.equalsIgnoreCase(CHROME)){
-                driver = new ChromeDriver();
-            }else if (ReaderSettings.browserName.equalsIgnoreCase(FIREFOX)){
-                driver = new FirefoxDriver();
-            }else if (ReaderSettings.browserName.equalsIgnoreCase(Edge)){
-                driver = new EdgeDriver();
+            synchronized (WebDriver.class){
+                if (ReaderSettings.browserName.equalsIgnoreCase(CHROME)){
+                    driver = new ChromeDriver();
+                }else if (ReaderSettings.browserName.equalsIgnoreCase(FIREFOX)){
+                    driver = new FirefoxDriver();
+                }else if (ReaderSettings.browserName.equalsIgnoreCase(Edge)){
+                    driver = new EdgeDriver();
+                }
             }
 
             driver.manage().deleteAllCookies();
